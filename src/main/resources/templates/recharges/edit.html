@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout=”http://www.ultraq.net.nz/thymeleaf/layout”
+	layout:decorate="~{layout.html}">
+<head>
+<title  th:if="${recharge.id}" th:text="#{recharges.edit.title}"></title>
+<title  th:if="!${recharge.id}" th:text="#{recharges.add.title}"></title>
+<link rel="shortcut icon" th:href="@{/static/assets/images/favicon.ico}">
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- ============================================================== -->
+		<!-- Start right Content here -->
+		<!-- ============================================================== -->
+		<section id="main-content">
+			<section class="wrapper">
+				<div class="row">
+					<div class="col-lg-12">
+						<!--breadcrumbs start -->
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="/home"><i
+										class="fa fa-home"></i> <span th:text="#{breadcrumbs.home}">Home</span></a></li>
+								<li class="breadcrumb-item"><a th:href="@{/recharges}"
+									th:text="#{breadcrumbs.recharges}">Recharges</a></li>
+								<li th:if="${recharge.id}" class="breadcrumb-item active" aria-current="page"
+									th:text="#{breadcrumbs.recharges.edit}">Edit</li>
+								<li th:if="!${recharge.id}" class="breadcrumb-item active" aria-current="page"
+									th:text="#{breadcrumbs.recharges.add}">Add</li>
+							</ol>
+						</nav>
+						<!--breadcrumbs end -->
+					</div>
+				</div>
+
+				<section class="card">
+					<header th:if="${recharge.id}" class="card-header"
+						th:text="#{recharges.headers.edit}"> Edit </header>
+						
+					<header th:if="!${recharge.id}" class="card-header"
+						th:text="#{recharges.headers.add}"> Add </header>
+					<div class="card-body">
+
+
+						<form enctype="multipart/form-data" class="form-horizontal tasi-form"
+							th:action="@{/recharges/save}" method="post" th:object="${recharge}">
+
+							<input type="hidden" class="form-control" th:field="*{id}">
+
+							<div class="form-group row">
+								<label class="col-2 col-form-label" th:text="#{recharges.form.code}">CODE</label>
+								<div class="col-10">
+									<input type="number" class="form-control" th:field="*{code}" maxlength="14" value="Some text value...">
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-2 col-form-label" th:text="#{recharges.form.balance}">BALANCE</label>
+								<div class="col-10">
+									<input type="number" step="0.01" class="form-control" th:field="*{balance}"
+										value="Some text value...">
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-2 col-form-label" th:text="#{recharges.form.active}">ACTIVE</label>
+								<div class="col-10 checker" id="uniform-closeButton">
+									<span class="checked"><input id="closeButton"
+										type="checkbox" th:field="*{active}" class="input-small"></span>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-2 col-form-label" th:text="#{recharges.form.description}">DESCRIPTION</label>
+								<div class="col-10">
+									<textarea class="form-control" th:field="*{description}"
+										rows="8"></textarea>
+								</div>
+							</div>
+
+							<div class="col-auto">
+								<button type="button" class="btn btn-outline-secondary mb-2"
+									onclick="window.location.href = '/recharges';"
+									th:text="#{recharges.form.button.cancel}">Cancel</button>
+								<button type="submit"
+									class="btn btn-outline-primary mb-2 float-right"
+									th:text="#{recharges.form.button.save}">Save</button>
+							</div>
+						</form>
+
+					</div>
+				</section>
+			</section>
+		</section>
+	</div>
+	<!-- ============================================================== -->
+	<!-- End Right content here -->
+	<!-- ============================================================== -->
+</body>
+
+</html>

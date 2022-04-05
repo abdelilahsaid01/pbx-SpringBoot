@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout=”http://www.ultraq.net.nz/thymeleaf/layout”
+	layout:decorate="~{layout.html}">
+<head>
+<title th:text="#{bwentries.list.title}"></title>
+<link rel="shortcut icon" th:href="@{/static/assets/images/favicon.ico}">
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- ============================================================== -->
+		<!-- Start right Content here -->
+		<!-- ============================================================== -->
+		<section id="main-content">
+			<section class="wrapper">
+
+				<div class="row">
+					<div class="col-lg-12">
+						<!--breadcrumbs start -->
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="/home"><i
+										class="fa fa-home"></i> <span th:text="#{breadcrumbs.home}">Home</span></a></li>
+								<li class="breadcrumb-item"><a th:href="@{/bwentries}"
+									th:text="#{breadcrumbs.bwentries}">B/W list</a></li>
+								<li class="breadcrumb-item active" aria-current="page"
+									th:text="#{breadcrumbs.bwentries.list}">List</li>
+							</ol>
+						</nav>
+						<!--breadcrumbs end -->
+					</div>
+				</div>
+
+				<section class="card">
+					<header class="card-header" th:text="#{bwentries.list.header}">
+						B/W List </header>
+					<div class="card-body">
+						<button type="button" class="btn btn-outline-secondary mb-2"
+							onclick="window.location.href = '/bwentries/add';"
+							th:text="#{bwentries.table.add}">Add</button>
+						<table class="display table table-bordered table-striped"
+							id="dynamic-table">
+							<thead>
+								<tr>
+									<th th:text="#{bwentries.table.NAME}">NAME</th>
+									<th th:text="#{bwentries.table.EXTENSION}">EXTENSION</th>
+									<th th:text="#{bwentries.table.CREATE_TIMESTAMP}">CREATE_TIMESTAMP</th>
+									<th th:text="#{bwentries.table.UPDATE_TIMESTAMP}">UPDATE_TIMESTAMP</th>
+									<th th:text="#{bwentries.table.action}">Action</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr th:each="entry : ${allEntries}">
+									<td th:text="${entry.name}"></td>
+									<td th:text="${entry.extension}"></td>
+									<td th:text="${entry.createTimestamp}"></td>
+									<td th:text="${entry.updateTimestamp}"></td>
+									<td><a th:href="@{'/bwentries/edit/' + ${entry.id}}"><i
+											class="fa fa-edit"></i></a> <a
+										th:href="@{'/bwentries/delete/' + ${entry.id}}"
+										th:onclick="return confirm([[#{bwentries.table.dialog.delete.confirm}]])"><i
+											class="fa fa-trash-o"></i></a></td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<th th:text="#{bwentries.table.NAME}">NAME</th>
+									<th th:text="#{bwentries.table.EXTENSION}">EXTENSION</th>
+									<th th:text="#{bwentries.table.CREATE_TIMESTAMP}">CREATE_TIMESTAMP</th>
+									<th th:text="#{bwentries.table.UPDATE_TIMESTAMP}">UPDATE_TIMESTAMP</th>
+									<th th:text="#{bwentries.table.action}">Action</th>
+								</tr>
+							</tfoot>
+						</table>
+
+					</div>
+				</section>
+			</section>
+		</section>
+
+		<!-- ============================================================== -->
+		<!-- End Right content here -->
+		<!-- ============================================================== -->
+
+	</div>
+	<div layout:fragment="scripts">
+		<script th:inline="javascript">
+			$(document).ready(function() {
+
+				$('#dynamic-table').dataTable({
+					"oLanguage": {
+					      "sUrl": /*[[@{'/static/assets/data-tables/lang/' + #{lang.name} +'.json'}]]*/ "http://weenko.com/lang.txt"
+					 },
+					"aaSorting" : [ [ 0, "asc" ], [ 1, "asc" ] ]
+				});
+			});
+		</script>
+	</div>
+
+</body>
+
+</html>

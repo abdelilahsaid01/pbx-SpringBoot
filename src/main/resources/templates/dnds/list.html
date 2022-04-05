@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout=”http://www.ultraq.net.nz/thymeleaf/layout”
+	layout:decorate="~{layout.html}">
+<head>
+<title th:text="#{dnd.list.title}"></title>
+<link rel="shortcut icon" th:href="@{/static/assets/images/favicon.ico}">
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- ============================================================== -->
+		<!-- Start right Content here -->
+		<!-- ============================================================== -->
+		<section id="main-content">
+			<section class="wrapper">
+
+				<div class="row">
+					<div class="col-lg-12">
+						<!--breadcrumbs start -->
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="/home"><i
+										class="fa fa-home"></i> <span th:text="#{breadcrumbs.home}">Home</span></a></li>
+								<li class="breadcrumb-item" aria-current="page"
+									th:text="#{breadcrumbs.dnd}">DnD</li>
+								<li class="breadcrumb-item active" aria-current="page"
+									th:text="#{breadcrumbs.dnd.list}">List</li>
+							</ol>
+						</nav>
+						<!--breadcrumbs end -->
+					</div>
+				</div>
+
+				<section class="card">
+					<header class="card-header" th:text="#{dnd.list.header}">
+						B/W List </header>
+					<div class="card-body">
+						<button type="button" class="btn btn-outline-secondary mb-2"
+							onclick="window.location.href = '/dnds/add';"
+							th:text="#{dnd.table.add}">Add</button>
+						<table class="display table table-bordered table-striped"
+							id="dynamic-table">
+							<thead>
+								<tr>
+									<th th:text="#{dnd.table.NAME}">NAME</th>
+									<th th:text="#{dnd.table.DESCRIPTION}">DESCRIPTION</th>
+									<th th:text="#{dnd.table.STARTTIME}">STARTTIME</th>
+									<th th:text="#{dnd.table.ENDTIME}">ENDTIME</th>
+									<th th:text="#{dnd.table.DAYS}">DAYS</th>
+									<th th:text="#{dnd.table.CREATETIMESTAMP}">CREATETIMESTAMP</th>
+									<th th:text="#{dnd.table.UPDATETIMESTAMP}">UPDATETIMESTAMP</th>
+									<th th:text="#{dnd.table.action}">Action</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr th:each="dnd : ${allDnds}">
+									<td th:text="${dnd.name}"></td>
+									<td th:text="${dnd.description}"></td>
+									<td th:text="${dnd.startTime}"></td>
+									<td th:text="${dnd.endTime}"></td>
+									<td>
+									<p th:if="${dnd.day1}" th:text="#{dnd.day1}"></p>
+									<p th:if="${dnd.day2}" th:text="#{dnd.day2}"></p>
+									<p th:if="${dnd.day3}" th:text="#{dnd.day3}"></p>
+									<p th:if="${dnd.day4}" th:text="#{dnd.day4}"></p>
+									<p th:if="${dnd.day5}" th:text="#{dnd.day5}"></p>
+									<p th:if="${dnd.day6}" th:text="#{dnd.day6}"></p>
+									<p th:if="${dnd.day7}" th:text="#{dnd.day7}"></p>
+									</td>
+									<td th:text="${dnd.createTimestamp}"></td>
+									<td th:text="${dnd.updateTimestamp}"></td>
+									<td><a
+										th:href="@{'/dnds/edit/' + ${dnd.id}}"><i
+											class="fa fa-edit"></i></a> <a
+										th:href="@{'/dnds/delete/' + ${dnd.id}}"
+										th:onclick="return confirm([[#{dnd.table.dialog.delete.confirm}]])"><i
+											class="fa fa-trash-o"></i></a></td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<th th:text="#{dnd.table.NAME}">NAME</th>
+									<th th:text="#{dnd.table.DESCRIPTION}">DESCRIPTION</th>
+									<th th:text="#{dnd.table.STARTTIME}">STARTTIME</th>
+									<th th:text="#{dnd.table.ENDTIME}">ENDTIME</th>
+									<th th:text="#{dnd.table.DAYS}">DAYS</th>
+									<th th:text="#{dnd.table.CREATETIMESTAMP}">CREATETIMESTAMP</th>
+									<th th:text="#{dnd.table.UPDATETIMESTAMP}">UPDATETIMESTAMP</th>
+									<th th:text="#{dnd.table.action}">Action</th>
+								</tr>
+							</tfoot>
+						</table>
+
+					</div>
+				</section>
+			</section>
+		</section>
+
+		<!-- ============================================================== -->
+		<!-- End Right content here -->
+		<!-- ============================================================== -->
+
+	</div>
+	<div layout:fragment="scripts">
+		<script th:inline="javascript">
+			$(document).ready(function() {
+
+				$('#dynamic-table').dataTable({
+					"oLanguage": {
+					      "sUrl": /*[[@{'/static/assets/data-tables/lang/' + #{lang.name} +'.json'}]]*/ "http://weenko.com/lang.txt"
+					 },
+					"aaSorting" : [ [ 0, "asc" ], [ 1, "asc" ] ]
+				});
+			});
+		</script>
+	</div>
+
+</body>
+
+</html>

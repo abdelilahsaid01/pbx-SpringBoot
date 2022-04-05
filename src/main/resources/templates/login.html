@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Mosaddek">
+    <meta name="keyword" content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+    <link rel="shortcut icon" th:href="@{/static/img/favicon.ico}">
+
+    <title>Weenko</title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/static/css/bootstrap-reset.css}" rel="stylesheet">
+    <!--external css-->
+    <link th:href="@{/static/assets/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+    
+    <link th:href="@{/static/assets/toastr-master/toastr.css}" rel="stylesheet" type="text/css" />
+    
+    <!-- Custom styles for this template -->
+    <link th:href="@{/static/css/style.css}" rel="stylesheet">
+    <link th:href="@{/static/css/style-responsive.css}" rel="stylesheet" />
+
+
+</head>
+
+  <body class="login-body">
+
+    <div class="container">
+
+      <form class="form-signin" th:action="@{/login}" method="post">
+        <img th:src="@{/static/img/login_bg.png}" class="form-signin-heading"/>
+        <div class="login-wrap">
+            <input type="text" class="form-control" name="username" placeholder="User ID" autofocus>
+            <input type="password" class="form-control" name="password" placeholder="Password">
+            <label class="checkbox">
+                <input type="checkbox" value="remember-me" name="remember-me"> Remember me
+            </label>
+
+            <div class="text-right">
+            <button class="btn btn-outline-primary btn-login" type="submit">Connexion</button>
+            </div>
+
+        </div>
+      </form>
+
+    </div>
+
+
+
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script th:src="@{/static/js/jquery.js}"></script>
+    <script th:src="@{/static/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/static/assets/toastr-master/toastr.js}"></script>
+    
+		<script th:if="${error}" th:inline="javascript">
+			$(document).ready(function() {
+				var shortCutFunction = 'error';
+				var msg = /*[[#{login.authentication.error}]]*/ 'message';
+				
+				var title = 'Error';
+				var $showDuration = true;
+				var $hideDuration = false;
+				var $timeOut = 5000;
+				var $extendedTimeOut = 5000;
+				var $showEasing = true;
+				var $hideEasing = false;
+				var $showMethod = true;
+				var $hideMethod = false;
+
+				toastr.options = {
+					closeButton : true,
+					debug : true,
+					//progressBar : true,
+					positionClass : 'toast-top-right',
+					preventDuplicates : true,
+					onclick : null
+				};
+
+				var $toast = toastr[shortCutFunction](msg, title); // Wire up an event handler to a button in the toast, if it exists
+			});
+		</script>
+
+  </body>
+</html>

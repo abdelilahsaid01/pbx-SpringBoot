@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout=”http://www.ultraq.net.nz/thymeleaf/layout”>
+<!-- BEGIN : Head-->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="Mosaddek">
+<meta name="keyword"
+	content="FlatLab, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+<link rel="shortcut icon" th:href="@{/static/img/favicon.ico}">
+
+<title layout:title-pattern="$CONTENT_TITLE">Ween'Call</title>
+
+<!-- Bootstrap core CSS -->
+<link th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{/static/css/bootstrap-reset.css}" rel="stylesheet">
+<!--external css-->
+<link th:href="@{/static/assets/font-awesome/css/font-awesome.css}"
+	rel="stylesheet" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{/static/assets/bootstrap-fileupload/bootstrap-fileupload.css}" />
+<link
+	th:href="@{/static/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css}"
+	rel="stylesheet" type="text/css" media="screen" />
+<link rel="stylesheet" th:href="@{/static/css/owl.carousel.css}"
+	type="text/css">
+<link rel="stylesheet"
+	th:href="@{/static/assets/data-tables/DT_bootstrap.css}" />
+
+<!--right slidebar-->
+<link th:href="@{/static/css/slidebars.css}" rel="stylesheet">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/static/assets/jquery-multi-select/css/multi-select.css}" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{/static/assets/switchery/switchery.css}" />
+
+<link th:href="@{/static/assets/toastr-master/toastr.css}"
+	rel="stylesheet" type="text/css" />
+
+<!-- Custom styles for this template -->
+
+<link th:href="@{/static/css/style.css}" rel="stylesheet">
+<link th:href="@{/static/css/style-responsive.css}" rel="stylesheet" />
+
+</head>
+
+<body class="light-sidebar-nav">
+
+	<section id="container">
+		<!--header start-->
+		<div th:include="fragments/header :: header">Header goes here</div>
+		<!--header end-->
+		<!--sidebar start-->
+		<div th:include="fragments/left_menu :: menu">Navigation menu
+			goes here</div>
+		<!--sidebar end-->
+		<!--main content start-->
+		<!--main content end-->
+		<div layout:fragment="content"></div>
+		<!-- Right Slidebar start -->
+		<div th:include="fragments/right_menu :: menu">Navigation menu
+			goes here</div>
+		<!-- Right Slidebar end -->
+
+		<!--footer start-->
+		<div th:include="fragments/footer :: copy"></div>
+		<!--footer end-->
+	</section>
+
+	<!-- js placed at the end of the document so the pages load faster -->
+	<script th:src="@{/static/js/jquery.js}"></script>
+	<script th:src="@{/static/js/jquery.form.js}"></script>
+	<script th:src="@{/static/js/bootstrap.bundle.min.js}"></script>
+	<script class="include" type="text/javascript"
+		th:src="@{/static/js/jquery.dcjqaccordion.2.7.js}"></script>
+	<script th:src="@{/static/js/jquery.scrollTo.min.js}"></script>
+	<script th:src="@{/static/js/jquery.nicescroll.js}"
+		type="text/javascript"></script>
+	<script type="text/javascript"
+		th:src="@{/static/assets/bootstrap-fileupload/bootstrap-fileupload.js}"></script>
+	<script th:src="@{/static/js/jquery.sparkline.js}"
+		type="text/javascript"></script>
+	<script
+		th:src="@{/static/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js}"></script>
+	<script th:src="@{/static/js/owl.carousel.js}"></script>
+	<script th:src="@{/static/js/jquery.customSelect.min.js}"></script>
+	<script th:src="@{/static/js/respond.min.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/static/assets/data-tables/jquery.dataTables.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/static/assets/data-tables/DT_bootstrap.js}"></script>
+
+	<!--right slidebar-->
+	<script th:src="@{/static/js/slidebars.min.js}"></script>
+
+	<!--common script for all pages-->
+	<script th:src="@{/static/js/common-scripts.js}"></script>
+
+	<script type="text/javascript"
+		th:src="@{/static/assets/jquery-multi-select/js/jquery.multi-select.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/static/assets/jquery-multi-select/js/jquery.quicksearch.js}"></script>
+	<script th:src="@{/static/assets/switchery/switchery.js}"></script>
+
+	<!--script for this page-->
+	<script th:src="@{/static/js/sparkline-chart.js}"></script>
+	<script th:src="@{/static/js/easy-pie-chart.js}"></script>
+	<script th:src="@{/static/js/count.js}"></script>
+	<script th:src="@{/static/assets/toastr-master/toastr.js}"></script>
+
+	<div layout:fragment="scripts"></div>
+	<script th:if="${flash}" th:inline="javascript">
+			$(document).ready(function() {
+				var shortCutFunction = /*[[${flash.type}]]*/ '';
+				var msg = /*[[#{${flash.code}(${flash.arg1}, ${flash.arg2})}]]*/ 'message';
+				
+				var title = /*[[${flash.type}]]*/ 'Success';
+				var $showDuration = true;
+				var $hideDuration = false;
+				var $timeOut = 5000;
+				var $extendedTimeOut = 5000;
+				var $showEasing = true;
+				var $hideEasing = false;
+				var $showMethod = true;
+				var $hideMethod = false;
+
+				toastr.options = {
+					closeButton : true,
+					debug : true,
+					//progressBar : true,
+					positionClass : 'toast-top-right',
+					preventDuplicates : true,
+					onclick : null
+				};
+
+				var $toast = toastr[shortCutFunction](msg, title); // Wire up an event handler to a button in the toast, if it exists
+			});
+		</script>
+</body>
+</html>

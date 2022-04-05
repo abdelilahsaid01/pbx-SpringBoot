@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<body>
+	<div th:fragment="menu">
+		<aside>
+			<div id="sidebar" class="nav-collapse ">
+				<!-- sidebar menu start-->
+				<ul class="sidebar-menu" id="nav-accordion">
+					<li><a th:href="@{/home}"> <i
+							class="fa fa-home"></i> <span
+							th:text="#{left_menu.nav.home}">Home</span>
+					</a></li>
+
+					<!--Channels menu start-->
+					<li
+						sec:authorize="${hasPermission('channels','edit') or hasPermission('channels','view')}"
+						class="sub-menu"><a th:href="@{/channels}"> <i
+							class="fa fa-phone"></i> <span
+							th:text="#{left_menu.nav.channels}">Channels</span>
+					</a></li>
+					<!--Channels menu end-->
+
+					<!--Subscribers menu start-->
+					<li
+						sec:authorize="${hasPermission('subscribers','edit') or hasPermission('subscribers','view')}"
+						class="sub-menu"><a th:href="@{/subscribers}"> <i
+							class="fa fa-group"></i> <span
+							th:text="#{left_menu.nav.subscribers}">Subscribers</span>
+					</a></li>
+					<!--Subscribers menu end-->
+
+					<!--Destinations menu start-->
+					<li
+						sec:authorize="${hasPermission('destinations','edit') or hasPermission('destinations','view')}"
+						class="sub-menu"><a th:href="@{/destinations}"> <i
+							class="fa fa-external-link"></i> <span
+							th:text="#{left_menu.nav.destinations}">Destinations</span>
+					</a></li>
+					<!--Destinations menu end-->
+
+					<!--B/W List menu start-->
+					<li
+						sec:authorize="${hasPermission('bwentries','edit') or hasPermission('bwentries','view')}"
+						class="sub-menu"><a th:href="@{/bwentries}"> <i
+							class="fa fa-shield"></i> <span
+							th:text="#{left_menu.nav.bwentries}">B/W lists</span>
+					</a></li>
+					<!--B/W List menu end-->
+					
+					<!--Recharges menu start-->
+					<li
+						sec:authorize="${hasPermission('recharges','edit') or hasPermission('recharges','view')}"
+						class="sub-menu"><a th:href="@{/recharges}"> <i
+							class="fa fa-dollar"></i> <span
+							th:text="#{left_menu.nav.recharges}">Recharges</span>
+					</a></li>
+					<!--Recharges menu end-->
+
+					<!--CDRs menu start-->
+					<li
+						sec:authorize="${hasPermission('cdrs','view')}"
+						class="sub-menu"><a th:href="@{/cdrs}"> <i
+							class="fa fa-copy"></i> <span
+							th:text="#{left_menu.nav.cdrs}">CDRs</span>
+					</a></li>
+					<!--CDRs menu end-->
+					
+					<!--DnD menu start-->
+					<li sec:authorize="${hasPermission('dnds','edit') or hasPermission('dnds','view')}" class="sub-menu"><a th:href="@{/dnds}"> <i
+							class="fa fa-clock-o"></i> <span
+							th:text="#{left_menu.nav.dnd}">DnD</span>
+					</a></li>
+					<!--DnD menu end-->
+											
+					<!--Parameters menu start-->
+					<li
+						sec:authorize="${hasPermission('tuning','edit') or hasPermission('parameters','view')}"
+						class="sub-menu"><a th:href="@{/parameters}"> <i
+							class="fa fa-wrench"></i> <span
+							th:text="#{left_menu.nav.parameters}">Parameters</span>
+					</a></li>
+					<!--Parameters menu end-->
+					
+					<!--Administration multi level menu start-->
+					<li sec:authorize="${hasPermission('users','edit') or hasPermission('users','view') or hasPermission('roles','edit') or hasPermission('roles','view') or hasPermission('privilege','view')}" class="sub-menu"><a href="javascript:;"> <i
+							class="fa fa-cogs"></i> <span
+							th:text="#{left_menu.nav.administration}">Administration</span>
+					</a>
+						<ul class="sub">
+							<li sec:authorize="${hasPermission('users','edit') or hasPermission('users','view')}"><a th:href="@{/admin/users}"> <i class="fa fa-user"></i><span
+									th:text="#{left_menu.nav.administration.users}">Utilisateurs</span></a>
+								</li>
+
+							<li sec:authorize="${hasPermission('roles','edit') or hasPermission('roles','view')}"><a th:href="@{/admin/roles}"><i class="fa fa-male"></i><span
+									th:text="#{left_menu.nav.administration.roles}">Roles</span></a>
+								</li>
+							<li sec:authorize="${hasPermission('privileges','view')}"><a th:href="@{/admin/privileges}"><i
+									class="fa fa-check-square-o"></i><span
+									th:text="#{left_menu.nav.administration.privileges}">Privileges</span></a></li>
+						</ul></li>
+					<!--Administration multi level menu end-->
+
+				</ul>
+				<!-- sidebar menu end-->
+			</div>
+		</aside>
+	</div>
+</body>
+</html>

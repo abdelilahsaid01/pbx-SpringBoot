@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout=”http://www.ultraq.net.nz/thymeleaf/layout”
+	layout:decorate="~{layout.html}">
+<head>
+<title th:text="#{admin.user.edit.form.header}"></title>
+<link rel="shortcut icon" th:href="@{/static/assets/images/favicon.ico}">
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- ============================================================== -->
+		<!-- Start right Content here -->
+		<!-- ============================================================== -->
+		<section id="main-content">
+			<section class="wrapper">
+				<div class="row">
+					<div class="col-lg-12">
+						<!--breadcrumbs start -->
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a th:href="@{/}"><i
+										class="fa fa-home"></i> <span th:text="#{breadcrumbs.home}">Home</span></a></li>
+								<li class="breadcrumb-item"><a
+									th:href="@{/admin/users}"
+									th:text="#{left_menu.nav.admin.user}">Utilisateurs</a></li>
+								<li class="breadcrumb-item active" aria-current="page"
+									th:text="#{left_menu.nav.admin.user.edit}">Edition</li>
+							</ol>
+						</nav>
+						<!--breadcrumbs end -->
+					</div>
+				</div>
+
+				<section class="card">
+					<header class="card-header"
+						th:text="#{admin.user.edit.form.header}"> Chargement </header>
+					<div class="card-body">
+
+
+						<form enctype="multipart/form-data"
+							class="form-horizontal tasi-form" th:action="@{${'/admin/users/edit/' + user.id}}"
+							method="post" th:object="${user}">
+
+							<input type="hidden" class="form-control" th:field="*{id}">
+
+							<div class="form-group row">
+								<label class="col-2 col-form-label">Login</label>
+								<div class="col-10">
+									<input type="text" class="form-control" th:field="*{username}"
+										value="Some text value...">
+								</div>
+							</div>
+
+							<div
+								th:classappend="${#fields.hasErrors('passwordStr')} ? 'form-group has-error row' : 'form-group row'"
+								class="">
+								<label class="col-2 col-form-label">Password</label>
+								<div class="col-10">
+									<input type="password"
+										th:classappend="${#fields.hasErrors('passwordStr')} ? 'form-control is-invalid' : 'form-control'"
+										th:field="*{passwordStr}" value="Some text value...">
+									<div th:each="error: ${#fields.errors('passwordStr')}"
+										class="invalid-feedback">
+										<p th:each="message : ${error.split(',')}"
+											th:text="#{'validation.password.'+${message}}">Danger</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-2 col-form-label"
+									th:text="#{admin.user.form.first_name}">Prenom</label>
+								<div class="col-10">
+									<input type="text" class="form-control" th:field="*{firstName}"
+										value="Some text value...">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-2 col-form-label"
+									th:text="#{admin.user.form.last_name}">Nom</label>
+								<div class="col-10">
+									<input type="text" class="form-control" th:field="*{lastName}"
+										value="Some text value...">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-2 col-form-label" for="example-email"
+									th:text="#{admin.user.form.email}">Email</label>
+								<div class="col-10">
+									<input type="email" class="form-control" th:field="*{email}">
+								</div>
+							</div>
+							<div class="form-group row rem2">
+								<div class="col-6 d-flex justify-content-center">
+									<label class="col-2 col-form-label"
+										th:text="#{admin.user.form.roles}">Roles</label>
+									<div class="col-10">
+										<select multiple th:field="*{roles}" class="form-control"
+											id="roles_multiselect">
+											<option th:each="role : ${allRoles}" th:value="${role.id}"
+												th:text="${role.name}">Role</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<!-- 							<div class="form-group row rem2"> -->
+							<!-- 								<label class="col-2 col-form-label">Enabled</label> -->
+							<!-- 								<div class="col-md-10"> -->
+							<!-- 									<input th:field="*{enabled}" type="checkbox" -->
+							<!-- 										class="align-bottom" /> -->
+							<!-- 								</div> -->
+							<!-- 							</div> -->
+
+							<div class="col-auto">
+								<button type="button" class="btn btn-outline-secondary mb-2"
+									onclick="window.location.href = '/';"
+									th:text="#{admin.user.edit.form.button.cancel}">Annuler</button>
+								<button type="submit"
+									class="btn btn-outline-primary mb-2 float-right"
+									th:text="#{admin.user.edit.form.button.save}">Sauvegarder</button>
+							</div>
+						</form>
+
+					</div>
+				</section>
+			</section>
+		</section>
+	</div>
+	<!-- ============================================================== -->
+	<!-- End Right content here -->
+	<!-- ============================================================== -->
+	<div layout:fragment="scripts">
+		<script>
+			$(document)
+					.ready(
+							function() {
+
+								$('#roles_multiselect')
+										.multiSelect(
+												{
+													selectableHeader : "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+													selectionHeader : "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+													afterInit : function(ms) {
+														var that = this, $selectableSearch = that.$selectableUl
+																.prev(), $selectionSearch = that.$selectionUl
+																.prev(), selectableSearchString = '#'
+																+ that.$container
+																		.attr('id')
+																+ ' .ms-elem-selectable:not(.ms-selected)', selectionSearchString = '#'
+																+ that.$container
+																		.attr('id')
+																+ ' .ms-elem-selection.ms-selected';
+
+														that.qs1 = $selectableSearch
+																.quicksearch(
+																		selectableSearchString)
+																.on(
+																		'keydown',
+																		function(
+																				e) {
+																			if (e.which === 40) {
+																				that.$selectableUl
+																						.focus();
+																				return false;
+																			}
+																		});
+
+														that.qs2 = $selectionSearch
+																.quicksearch(
+																		selectionSearchString)
+																.on(
+																		'keydown',
+																		function(
+																				e) {
+																			if (e.which == 40) {
+																				that.$selectionUl
+																						.focus();
+																				return false;
+																			}
+																		});
+													},
+													afterSelect : function() {
+														this.qs1.cache();
+														this.qs2.cache();
+													},
+													afterDeselect : function() {
+														this.qs1.cache();
+														this.qs2.cache();
+													}
+												});
+
+								$('#regions_multiselect')
+										.multiSelect(
+												{
+													selectableHeader : "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+													selectionHeader : "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+													afterInit : function(ms) {
+														var that = this, $selectableSearch = that.$selectableUl
+																.prev(), $selectionSearch = that.$selectionUl
+																.prev(), selectableSearchString = '#'
+																+ that.$container
+																		.attr('id')
+																+ ' .ms-elem-selectable:not(.ms-selected)', selectionSearchString = '#'
+																+ that.$container
+																		.attr('id')
+																+ ' .ms-elem-selection.ms-selected';
+
+														that.qs1 = $selectableSearch
+																.quicksearch(
+																		selectableSearchString)
+																.on(
+																		'keydown',
+																		function(
+																				e) {
+																			if (e.which === 40) {
+																				that.$selectableUl
+																						.focus();
+																				return false;
+																			}
+																		});
+
+														that.qs2 = $selectionSearch
+																.quicksearch(
+																		selectionSearchString)
+																.on(
+																		'keydown',
+																		function(
+																				e) {
+																			if (e.which == 40) {
+																				that.$selectionUl
+																						.focus();
+																				return false;
+																			}
+																		});
+													},
+													afterSelect : function() {
+														this.qs1.cache();
+														this.qs2.cache();
+													},
+													afterDeselect : function() {
+														this.qs1.cache();
+														this.qs2.cache();
+													}
+												});
+
+								// 		        var elem = document.querySelector('.js-switch-blue');
+								// 		        var switchery = new Switchery(elem, { color: '#009fe3'});
+
+							});
+		</script>
+	</div>
+</body>
+
+</html>

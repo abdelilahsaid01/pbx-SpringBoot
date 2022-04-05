@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout=”http://www.ultraq.net.nz/thymeleaf/layout”
+	layout:decorate="~{layout.html}">
+<head>
+<title th:text="#{admin.privileges.list.header}"></title>
+<link rel="shortcut icon" th:href="@{/static/assets/images/favicon.ico}">
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- ============================================================== -->
+		<!-- Start right Content here -->
+		<!-- ============================================================== -->
+		<section id="main-content">
+			<section class="wrapper">
+
+				<div class="row">
+					<div class="col-lg-12">
+						<!--breadcrumbs start -->
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="#"><i
+										class="fa fa-home"></i> <span th:text="#{breadcrumbs.home}">Home</span></a></li>
+								<li class="breadcrumb-item"><a
+									th:href="@{/admin/privilege/list}"
+									th:text="#{left_menu.nav.administration}">Administration</a></li>
+								<li class="breadcrumb-item"><a th:href="@{/admin/privilege/list}"
+									th:text="#{left_menu.nav.administration.privileges}">Privileges</a></li>
+								<li class="breadcrumb-item active" aria-current="page"
+									th:text="#{left_menu.nav.administration.privileges.list}">Liste</li>
+							</ol>
+						</nav>
+						<!--breadcrumbs end -->
+					</div>
+				</div>
+
+				<section class="card">
+					<header class="card-header" th:text="#{admin.privileges.list.header}">
+						Liste des privileges </header>
+					<div class="card-body">
+
+						<table class="display table table-bordered table-striped"
+							id="dynamic-table">
+							<thead>
+								<tr>
+									<th th:text="#{admin.privileges.table.name}">name</th>
+									<th th:text="#{admin.privileges.table.code}">code</th>
+								</tr>
+							</thead>
+
+							<tbody>
+								<tr th:each="privilege : ${allPrivileges}">
+									<td th:text="#{${'privilege.' + privilege.name}}"></td>
+									<td th:text="${privilege.code}"></td>
+								</tr>
+							</tbody>
+							<tfoot>
+								<tr>
+									<th th:text="#{admin.privileges.table.name}">name</th>
+									<th th:text="#{admin.privileges.table.code}">code</th>
+								</tr>
+							</tfoot>
+						</table>
+
+					</div>
+				</section>
+			</section>
+		</section>
+
+		<!-- ============================================================== -->
+		<!-- End Right content here -->
+		<!-- ============================================================== -->
+
+	</div>
+	<div layout:fragment="scripts">
+		<script>
+			$(document).ready(function() {
+
+				$('#dynamic-table').DataTable({
+					"order": [ [ 1, "desc" ] ]
+				});
+			});
+		</script>
+	</div>
+
+</body>
+
+</html>

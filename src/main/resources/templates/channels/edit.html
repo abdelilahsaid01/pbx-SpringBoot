@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout=”http://www.ultraq.net.nz/thymeleaf/layout”
+	layout:decorate="~{layout.html}">
+<head>
+<title  th:if="${channel.id}" th:text="#{channels.edit.title}"></title>
+<title  th:if="!${channel.id}" th:text="#{channels.add.title}"></title>
+<link rel="shortcut icon" th:href="@{/static/assets/images/favicon.ico}">
+</head>
+<body>
+	<div layout:fragment="content">
+		<!-- ============================================================== -->
+		<!-- Start right Content here -->
+		<!-- ============================================================== -->
+		<section id="main-content">
+			<section class="wrapper">
+				<div class="row">
+					<div class="col-lg-12">
+						<!--breadcrumbs start -->
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="/home"><i
+										class="fa fa-home"></i> <span th:text="#{breadcrumbs.home}">Home</span></a></li>
+								<li class="breadcrumb-item"><a th:href="@{/channels}"
+									th:text="#{breadcrumbs.channels}">Channels</a></li>
+								<li th:if="${channel.id}" class="breadcrumb-item active" aria-current="page"
+									th:text="#{breadcrumbs.channels.edit}">Edit</li>
+								<li th:if="!${channel.id}" class="breadcrumb-item active" aria-current="page"
+									th:text="#{breadcrumbs.channels.add}">Add</li>
+							</ol>
+						</nav>
+						<!--breadcrumbs end -->
+					</div>
+				</div>
+
+				<section class="card">
+					<header th:if="${channel.id}" class="card-header"
+						th:text="#{channels.headers.edit}"> Edit </header>
+						
+					<header th:if="!${channel.id}" class="card-header"
+						th:text="#{channels.headers.add}"> Add </header>
+					<div class="card-body">
+
+
+						<form enctype="multipart/form-data" class="form-horizontal tasi-form"
+							th:action="@{/channels/save}" method="post" th:object="${channel}">
+
+							<input type="hidden" class="form-control" th:field="*{id}">
+
+							<div class="form-group row">
+								<label class="col-2 col-form-label" th:text="#{channels.form.name}">NAME</label>
+								<div class="col-10">
+									<input type="text" class="form-control" th:field="*{name}"
+										value="Some text value...">
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-2 col-form-label"
+									th:text="#{channels.form.username}">USERNAME</label>
+								<div class="col-10">
+									<input type="text" class="form-control" th:field="*{username}"
+										value="Some text value...">
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-2 col-form-label"
+									th:text="#{channels.form.password}">PASSWORD</label>
+								<div class="col-10">
+									<input type="password" class="form-control" th:field="*{password}"
+										value="Some text value...">
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-2 col-form-label" th:text="#{channels.form.address}">ADDRESS</label>
+								<div class="col-10">
+									<input type="text" class="form-control" th:field="*{address}"
+										value="Some text value...">
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-2 col-form-label"
+									th:text="#{channels.form.type}">Type</label>
+								<div class="col-10">
+									<select th:field="*{type}" class="form-control">
+										<option th:value="BL" th:text="#{channels.form.blacklist}"></option>
+										<option th:value="WL" th:text="#{channels.form.whitelist}"></option>
+									</select>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-2 col-form-label" th:text="#{channels.form.description}">DESCRIPTION</label>
+								<div class="col-10">
+									<textarea class="form-control" th:field="*{description}"
+										rows="3"></textarea>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-2 col-form-label">DnDs</label>
+								<div class="col-10">
+									<select multiple th:field="*{dnds}" class="form-control"
+										id="dnds">
+										<option th:each="dnd : ${allDnds}"
+											th:value="${{dnd}}" th:text="${dnd.name}">DnD</option>
+									</select>
+								</div>
+							</div>
+							
+							<div class="col-auto">
+								<button type="button" class="btn btn-outline-secondary mb-2"
+									onclick="window.location.href = '/channels';"
+									th:text="#{channels.form.button.cancel}">Cancel</button>
+								<button type="submit"
+									class="btn btn-outline-primary mb-2 float-right"
+									th:text="#{channels.form.button.save}">Save</button>
+							</div>
+						</form>
+
+					</div>
+				</section>
+			</section>
+		</section>
+	</div>
+	<!-- ============================================================== -->
+	<!-- End Right content here -->
+	<!-- ============================================================== -->
+		<div layout:fragment="scripts">
+		<script>
+			$(document).ready(function() {
+
+			    $('#dnds').multiSelect({
+			        selectableHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+			        selectionHeader: "<input type='text' class='form-control search-input' autocomplete='off' placeholder='search...'>",
+			        afterInit: function (ms) {
+			            var that = this,
+			                $selectableSearch = that.$selectableUl.prev(),
+			                $selectionSearch = that.$selectionUl.prev(),
+			                selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
+			                selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+
+			            that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
+			                .on('keydown', function (e) {
+			                    if (e.which === 40) {
+			                        that.$selectableUl.focus();
+			                        return false;
+			                    }
+			                });
+
+			            that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
+			                .on('keydown', function (e) {
+			                    if (e.which == 40) {
+			                        that.$selectionUl.focus();
+			                        return false;
+			                    }
+			                });
+			        },
+			        afterSelect: function () {
+			            this.qs1.cache();
+			            this.qs2.cache();
+			        },
+			        afterDeselect: function () {
+			            this.qs1.cache();
+			            this.qs2.cache();
+			        }
+			    });
+			    
+			});
+		</script>
+	</div>
+</body>
+
+</html>
